@@ -1,0 +1,64 @@
+{
+  "version": 1,
+  "elever": [
+    {
+      "navn": "Emma Sørensen",
+      "klasse": "7B",
+      "foedselsdato": "2012-04-12",
+      "observationer": [
+        {
+          "dato": "2026-09-18",
+          "kategori": "Deltagelse",
+          "valens": "Opmærksomhed",
+          "beskrivelse": "Kom 12 minutter for sent til matematik og blev stående uden for lokalet.",
+          "kontekst": "Matematik, 1. lektion",
+          "observeretAf": "Lærer (undertegnede)",
+          "hvadHjalp": "En kort pause med en kendt voksen hjalp en enkelt gang.",
+          "deltMedHjem": false
+        },
+        {
+          "dato": "2026-10-01",
+          "kategori": "Faglig",
+          "valens": "Styrke",
+          "beskrivelse": "Viste stort overskud i gruppearbejdet og hjalp en klassekammerat.",
+          "kontekst": "Naturfag, gruppearbejde",
+          "observeretAf": "Lærer (undertegnede)",
+          "deltMedHjem": true
+        }
+      ],
+      "samtaler": [
+        {
+          "type": "SkoleHjemSamtale",
+          "dato": "2026-10-06",
+          "formaal": "Forstå sammen hvad der gør morgener og enkelte lektioner svære, og aftale et lille, testbart første skridt.",
+          "skabelonKode": "skolevaegring-opfoelgning",
+          "sted": "Grupperum 2",
+          "status": "Afholdt",
+          "deltagere": [
+            { "navn": "Emma", "rolle": "Elev" },
+            { "navn": "Mor (Anne)", "rolle": "Foraelder" },
+            { "navn": "Kontaktlærer", "rolle": "Laerer" }
+          ],
+          "noter": [
+            { "fase": "Aabning", "perspektiv": "Skole", "indhold": "Fælles formål aftalt." },
+            { "fase": "InviterHjemmetsPerspektiv", "perspektiv": "Hjem", "indhold": "Mor fortæller om dårlig søvn og mavepine om morgenen." },
+            { "fase": "ElevensPerspektiv", "perspektiv": "Elev", "indhold": "Idræt og store fora er svære; ønsker en fast voksen om morgenen." },
+            { "fase": "StemmeTjek", "perspektiv": "Skole", "indhold": "Begge oplevede at blive hørt." }
+          ],
+          "aftaler": [
+            { "beskrivelse": "Fast kontaktperson tager imod Emma ved morgensamlingen.", "ansvarlig": "Skole", "evalueringsdato": "2026-10-27" },
+            { "beskrivelse": "Hjemmet noterer søvn og morgenhumør i en uge.", "ansvarlig": "Hjem", "evalueringsdato": "2026-10-27" }
+          ],
+          "hjemmeIndsigter": [
+            {
+              "spoergsmaal": "Hvordan er aftenerne og morgenerne typisk?",
+              "svar": "Sover først sent om søndagen og klager over mavepine om morgenen.",
+              "kategori": "Trivsel",
+              "bidragetAf": "Mor (Anne)"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

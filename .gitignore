@@ -1,0 +1,20 @@
+# .NET
+bin/
+obj/
+*.user
+*.suo
+.vs/
+.vscode/
+
+# Lokal database (seedes automatisk ved opstart)
+*.db
+*.db-shm
+*.db-wal
+
+# OS/editor
+.DS_Store
+Thumbs.db
+
+# Lokale hemmeligheder (brug miljøvariabler/secrets – aldrig filer i repo)
+secrets/
+.env

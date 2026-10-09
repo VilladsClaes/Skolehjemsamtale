@@ -1,0 +1,35 @@
+@page
+@model Skolehjemsamtale.Web.Pages.Elever.IndexModel
+@{ ViewData["Title"] = "Elever"; }
+
+<h1>Elever</h1>
+<p class="lead">Vælg en elev for at se observationer, samtaler og den viden, hjemmet har bidraget med.</p>
+
+<div class="two">
+    <div>
+        <table>
+            <thead><tr><th>Navn</th><th>Klasse</th><th>Observationer</th><th>Samtaler</th></tr></thead>
+            <tbody>
+            @foreach (var e in Model.Elever)
+            {
+                <tr>
+                    <td><a asp-page="/Elever/Detaljer" asp-route-id="@e.Id">@e.Navn</a></td>
+                    <td>@e.Klasse</td>
+                    <td>@e.AntalObservationer</td>
+                    <td>@e.AntalSamtaler</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+    <div class="card">
+        <h3>Tilføj elev</h3>
+        <form method="post">
+            <label for="Navn">Navn</label>
+            <input id="Navn" asp-for="Navn" />
+            <label for="Klasse">Klasse</label>
+            <input id="Klasse" asp-for="Klasse" />
+            <button type="submit">Opret elev</button>
+        </form>
+    </div>
+</div>

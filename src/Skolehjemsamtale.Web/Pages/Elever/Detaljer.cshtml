@@ -1,0 +1,87 @@
+@page "{id:guid}"
+@model Skolehjemsamtale.Web.Pages.Elever.DetaljerModel
+@{ ViewData["Title"] = Model.Overblik?.Elev.Navn ?? "Elev"; var o = Model.Overblik!; }
+
+<h1>@o.Elev.Navn <span class="pill">@o.Elev.Klasse</span></h1>
+<p class="lead">Observationer fra undervisningen danner grundlaget for samtalen. Her samles skole, hjem og elevs perspektiv.</p>
+
+<div class="grid">
+    <div class="card"><h3>Observationer</h3><div class="stat">@o.SenesteObservationer.Count</div></div>
+    <div class="card"><h3>Samtaler</h3><div class="stat">@o.Samtaler.Count</div></div>
+    <div class="card"><h3>Åbne aftaler</h3><div class="stat">@o.AabneAftaler</div></div>
+    <div class="card"><h3>Fra hjemmet</h3><div class="stat">@o.HjemmeIndsigter.Count</div></div>
+</div>
+
+<h2>Observationer</h2>
+<table>
+    <thead><tr><th>Dato</th><th>Kategori</th><th>Beskrivelse</th><th>Kontekst</th><th>Type</th></tr></thead>
+    <tbody>
+    @foreach (var obs in o.SenesteObservationer)
+    {
+        <tr>
+            <td>@obs.Dato.ToString("dd.MM.yyyy")</td>
+            <td>@obs.Kategori</td>
+            <td>
+                @obs.Beskrivelse
+                @if (!string.IsNullOrWhiteSpace(obs.HvadHjalp))
+                {
+                    <div class="small muted">Hvad hjalp: @obs.HvadHjalp</div>
+                }
+            </td>
+            <td class="muted">@obs.Kontekst</td>
+            <td><span class="badge @(obs.Valens == ObservationValens.Styrke ? "ok" : "warn")">@obs.Valens</span></td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+<div class="two" style="margin-top:20px">
+    <div>
+        <h2>Hjemmets bidrag</h2>
+        @if (o.HjemmeIndsigter.Count == 0)
+        {
+            <p class="muted">Endnu ingen oplysninger fra hjemmet. Brug spørgerammen i samtalen.</p>
+        }
+        @foreach (var h in o.HjemmeIndsigter)
+        {
+            <div class="note hjem">
+                <div class="small muted">@h.Kategori · @h.BidragetAf</div>
+                <strong>@h.Spoergsmaal</strong>
+                <div>@h.Svar</div>
+            </div>
+        }
+    </div>
+    <div class="card">
+        <h3>Registrer observation</h3>
+        <form method="post" asp-page-handler="Observation" asp-route-id="@o.Elev.Id">
+            <label>Kategori</label>
+            <select asp-for="Kategori" asp-items="Html.GetEnumSelectList<ObservationKategori>()"></select>
+            <label>Type</label>
+            <select asp-for="Valens" asp-items="Html.GetEnumSelectList<ObservationValens>()"></select>
+            <label>Observerbar beskrivelse (hvad, hvor, hvornår)</label>
+            <textarea asp-for="Beskrivelse"></textarea>
+            <label>Kontekst (fag/situation)</label>
+            <input asp-for="Kontekst" />
+            <label>Hvad har hjulpet? (valgfrit)</label>
+            <input asp-for="HvadHjalp" />
+            <button type="submit">Gem observation</button>
+        </form>
+    </div>
+</div>
+
+<h2>Samtaler</h2>
+<table>
+    <thead><tr><th>Dato</th><th>Type</th><th>Status</th><th>Formål</th><th></th></tr></thead>
+    <tbody>
+    @foreach (var s in o.Samtaler)
+    {
+        <tr>
+            <td>@s.Dato.ToString("dd.MM.yyyy")</td>
+            <td><span class="pill">@s.Type</span></td>
+            <td><span class="badge @(s.Status == SamtaleStatus.Afsluttet ? "ok" : s.Status == SamtaleStatus.Planlagt ? "" : "warn")">@s.Status</span></td>
+            <td class="muted">@s.Formaal</td>
+            <td><a asp-page="/Samtaler/Detaljer" asp-route-id="@s.Id">Åbn</a></td>
+        </tr>
+    }
+    </tbody>
+</table>

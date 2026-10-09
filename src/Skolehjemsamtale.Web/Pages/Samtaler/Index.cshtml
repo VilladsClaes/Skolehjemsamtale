@@ -1,0 +1,55 @@
+@page
+@model Skolehjemsamtale.Web.Pages.Samtaler.IndexModel
+@{ ViewData["Title"] = "Samtaler"; }
+
+<h1>Samtaler</h1>
+<p class="lead">En samtale planlægges ud fra konkrete observationer. Vælg en struktur, der passer til situationen.</p>
+
+<div class="two">
+    <div>
+        <table>
+            <thead><tr><th>Elev</th><th>Dato</th><th>Type</th><th>Status</th><th>Formål</th></tr></thead>
+            <tbody>
+            @foreach (var s in Model.Samtaler)
+            {
+                <tr>
+                    <td><a asp-page="/Samtaler/Detaljer" asp-route-id="@s.Id">@s.ElevNavn</a></td>
+                    <td>@s.Dato.ToString("dd.MM.yyyy")</td>
+                    <td><span class="pill">@s.Type</span></td>
+                    <td><span class="badge @(s.Status == SamtaleStatus.Afsluttet ? "ok" : s.Status == SamtaleStatus.Planlagt ? "" : "warn")">@s.Status</span></td>
+                    <td class="muted small">@s.Formaal</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+    <div class="card">
+        <h3>Planlæg samtale</h3>
+        <form method="post">
+            <label>Elev</label>
+            <select asp-for="ElevId">
+                <option value="">Vælg elev…</option>
+                @foreach (var e in Model.Elever)
+                {
+                    <option value="@e.Id">@e.Navn (@e.Klasse)</option>
+                }
+            </select>
+            <label>Type</label>
+            <select asp-for="Type" asp-items="Html.GetEnumSelectList<SamtaleType>()"></select>
+            <label>Dato</label>
+            <input asp-for="Dato" type="date" />
+            <label>Samtalestruktur</label>
+            <select asp-for="SkabelonKode">
+                @foreach (var sk in Model.Skabeloner)
+                {
+                    <option value="@sk.Kode">@sk.Navn</option>
+                }
+            </select>
+            <label>Formål (i klart sprog)</label>
+            <textarea asp-for="Formaal" placeholder="Fx: Forstå sammen hvad der gør morgenerne svære, og aftal et lille første skridt."></textarea>
+            <label>Sted (valgfrit)</label>
+            <input asp-for="Sted" />
+            <button type="submit">Planlæg</button>
+        </form>
+    </div>
+</div>

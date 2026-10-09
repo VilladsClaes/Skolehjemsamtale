@@ -1,0 +1,182 @@
+@page "{id:guid}"
+@model Skolehjemsamtale.Web.Pages.Samtaler.DetaljerModel
+@{
+    ViewData["Title"] = "Samtale";
+    var s = Model.Samtale!;
+    var d = s.Samtale;
+}
+<h1>@d.ElevNavn – @d.Type</h1>
+<p class="lead">@d.Formaal</p>
+<p>
+    <span class="badge @(d.Status == SamtaleStatus.Afsluttet ? "ok" : d.Status == SamtaleStatus.Planlagt ? "" : "warn")">@d.Status</span>
+    <span class="pill">@d.Dato.ToString("dd.MM.yyyy")</span>
+    <span class="pill">Struktur: @s.Skabelon.Navn</span>
+    @if (d.ElevInddraget) { <span class="badge ok">Elev inddraget</span> }
+    @if (d.HjemInddraget) { <span class="badge ok">Hjem inddraget</span> }
+</p>
+
+@if (!string.IsNullOrEmpty(Model.Fejl))
+{
+    <div class="advisory">@Model.Fejl</div>
+}
+
+<div>
+    <form method="post" asp-page-handler="Afholdt" asp-route-id="@d.Id" class="inline">
+        <button class="ghost" type="submit">Markér afholdt</button>
+    </form>
+    <form method="post" asp-page-handler="Afslut" asp-route-id="@d.Id" class="inline">
+        <button type="submit">Afslut samtale</button>
+    </form>
+</div>
+
+<div class="two" style="margin-top:20px">
+    <!-- VENSTRE: samtalestruktur -->
+    <div>
+        <h2>Samtalestruktur – trin for trin</h2>
+        @foreach (var trin in s.Skabelon.Trin)
+        {
+            var noter = s.Noter.Where(n => n.Fase == trin.Kode).ToList();
+            <div class="phase">
+                <h3>@trin.Titel <span class="pill">@trin.PrimaertPerspektiv</span></h3>
+                <p class="q">@trin.Formaal</p>
+                <ul class="tight">
+                    @foreach (var q in trin.Spoergsmaal) { <li class="q">@q</li> }
+                </ul>
+                @if (trin.PasPaa.Count > 0)
+                {
+                    <div class="advisory"><strong>Vær opmærksom:</strong> @string.Join(" · ", trin.PasPaa)</div>
+                }
+                @foreach (var n in noter)
+                {
+                    <div class="note @(n.Perspektiv == Perspektiv.Hjem ? "hjem" : n.Perspektiv == Perspektiv.Elev ? "elev" : "")">
+                        <div class="small muted">@n.Perspektiv</div>
+                        @n.Indhold
+                    </div>
+                }
+            </div>
+        }
+
+        <h2>Tilføj note</h2>
+        <div class="card">
+            <form method="post" asp-page-handler="Note" asp-route-id="@d.Id">
+                <label>Trin</label>
+                <select asp-for="NoteFase" asp-items="Html.GetEnumSelectList<SamtaleFaseKode>()"></select>
+                <label>Perspektiv</label>
+                <select asp-for="NotePerspektiv" asp-items="Html.GetEnumSelectList<Perspektiv>()"></select>
+                <label>Note (brug deltagerens egne ord så vidt muligt)</label>
+                <textarea asp-for="NoteIndhold"></textarea>
+                <button type="submit">Gem note</button>
+            </form>
+        </div>
+
+        <h2>Relaterede observationer</h2>
+        <table>
+            <thead><tr><th>Dato</th><th>Type</th><th>Beskrivelse</th></tr></thead>
+            <tbody>
+            @foreach (var o in s.RelateredeObservationer)
+            {
+                <tr>
+                    <td>@o.Dato.ToString("dd.MM.yyyy")</td>
+                    <td><span class="badge @(o.Valens == ObservationValens.Styrke ? "ok" : "warn")">@o.Valens</span></td>
+                    <td>@o.Beskrivelse <span class="muted small">(@o.Kontekst)</span></td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+
+    <!-- HØJRE: kvalitet, aftaler, hjem, deltagere -->
+    <div>
+        <h2>Samtalens kvalitet</h2>
+        <div class="card">
+            <div class="score">@s.Kvalitet.Score%</div>
+            <div class="small muted">@s.Kvalitet.AntalOpfyldt af @s.Kvalitet.AntalIAlt tjek opfyldt</div>
+            @foreach (var t in s.Kvalitet.Tjek)
+            {
+                <div class="check">
+                    <span class="mark" style="color:@(t.Opfyldt ? "var(--ok)" : "var(--warn)")">@(t.Opfyldt ? "✓" : "○")</span>
+                    <div><strong>@t.Titel</strong><div class="small muted">@t.Begrundelse</div></div>
+                </div>
+            }
+        </div>
+
+        <h2>Handlingsaftaler</h2>
+        @foreach (var a in s.Aftaler)
+        {
+            <div class="note">
+                <div>@a.Beskrivelse</div>
+                <div class="small muted">
+                    <span class="pill">@a.Ansvarlig</span>
+                    @if (a.Frist is not null) { <span class="pill">frist @a.Frist.Value.ToString("dd.MM.yyyy")</span> }
+                    @if (a.Evalueringsdato is not null) { <span class="pill">opfølgning @a.Evalueringsdato.Value.ToString("dd.MM.yyyy")</span> }
+                    <span class="badge @(a.Status == AftaleStatus.Afsluttet ? "ok" : "warn")">@a.Status</span>
+                </div>
+            </div>
+        }
+        <div class="card">
+            <h3>Ny aftale</h3>
+            <form method="post" asp-page-handler="Aftale" asp-route-id="@d.Id">
+                <label>Hvad skal ske? (lille og testbart)</label>
+                <textarea asp-for="AftaleBeskrivelse"></textarea>
+                <label>Ansvarlig</label>
+                <select asp-for="AftaleAnsvarlig" asp-items="Html.GetEnumSelectList<AftaleAnsvar>()"></select>
+                <label>Frist</label>
+                <input asp-for="AftaleFrist" type="date" />
+                <label>Dato for opfølgning</label>
+                <input asp-for="AftaleEvaluering" type="date" />
+                <button type="submit">Tilføj aftale</button>
+            </form>
+        </div>
+
+        <h2>Viden fra hjemmet</h2>
+        @foreach (var h in s.HjemmeIndsigter)
+        {
+            <div class="note hjem">
+                <div class="small muted">@h.Kategori · @h.BidragetAf</div>
+                <strong>@h.Spoergsmaal</strong>
+                <div>@h.Svar</div>
+            </div>
+        }
+        <div class="card">
+            <h3>Registrer oplysning fra hjemmet</h3>
+            <form method="post" asp-page-handler="Hjemme" asp-route-id="@d.Id">
+                <label>Spørgsmål (vælg gerne fra rammen)</label>
+                <input asp-for="HjemmeSpoergsmaal" list="spoergeramme" />
+                <datalist id="spoergeramme">
+                    @foreach (var q in Model.Spoergeramme) { <option value="@q.Spoergsmaal"></option> }
+                </datalist>
+                <label>Svar (hjemmets egne ord)</label>
+                <textarea asp-for="HjemmeSvar"></textarea>
+                <label>Kategori</label>
+                <select asp-for="HjemmeKategori" asp-items="Html.GetEnumSelectList<ObservationKategori>()"></select>
+                <label>Bidraget af</label>
+                <input asp-for="HjemmeBidragetAf" placeholder="Fx: Mor, Far, Elev + forælder" />
+                <button type="submit">Gem oplysning</button>
+            </form>
+        </div>
+
+        <h2>Deltagere</h2>
+        <ul class="tight">
+            @foreach (var p in s.Deltagere) { <li>@p.Navn <span class="pill">@p.Rolle</span></li> }
+        </ul>
+        <div class="card">
+            <h3>Tilføj deltager</h3>
+            <form method="post" asp-page-handler="Deltager" asp-route-id="@d.Id">
+                <label>Navn</label>
+                <input asp-for="DeltagerNavn" />
+                <label>Rolle</label>
+                <select asp-for="DeltagerRolle" asp-items="Html.GetEnumSelectList<SamtaleRolle>()"></select>
+                <button type="submit">Tilføj</button>
+            </form>
+        </div>
+
+        <h2>Aflys samtale</h2>
+        <div class="card">
+            <form method="post" asp-page-handler="Aflys" asp-route-id="@d.Id">
+                <label>Årsag (valgfrit)</label>
+                <input asp-for="Aflysningsaarsag" />
+                <button class="danger" type="submit">Aflys</button>
+            </form>
+        </div>
+    </div>
+</div>

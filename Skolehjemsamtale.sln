@@ -1,0 +1,57 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{233C9EB8-A2A7-4A26-A8B6-EABD952207FD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skolehjemsamtale.Domain", "src\Skolehjemsamtale.Domain\Skolehjemsamtale.Domain.csproj", "{26470B60-7F6D-4C38-80CC-CC95262C7AFB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skolehjemsamtale.Application", "src\Skolehjemsamtale.Application\Skolehjemsamtale.Application.csproj", "{D0BE2626-49F3-42B1-B751-C6E0E7EC0A9D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skolehjemsamtale.Infrastructure", "src\Skolehjemsamtale.Infrastructure\Skolehjemsamtale.Infrastructure.csproj", "{66731045-E2B4-45E4-BCBF-30BC32D43638}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skolehjemsamtale.Web", "src\Skolehjemsamtale.Web\Skolehjemsamtale.Web.csproj", "{44EF2EB7-BA68-4CA7-9112-85C570942854}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{B1C508D7-A3B1-407F-912C-DB345F6D2F66}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skolehjemsamtale.Tests", "tests\Skolehjemsamtale.Tests\Skolehjemsamtale.Tests.csproj", "{DED8017F-E865-4B22-A8E3-32D83FC81B8E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{26470B60-7F6D-4C38-80CC-CC95262C7AFB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{26470B60-7F6D-4C38-80CC-CC95262C7AFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{26470B60-7F6D-4C38-80CC-CC95262C7AFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{26470B60-7F6D-4C38-80CC-CC95262C7AFB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D0BE2626-49F3-42B1-B751-C6E0E7EC0A9D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D0BE2626-49F3-42B1-B751-C6E0E7EC0A9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D0BE2626-49F3-42B1-B751-C6E0E7EC0A9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D0BE2626-49F3-42B1-B751-C6E0E7EC0A9D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{66731045-E2B4-45E4-BCBF-30BC32D43638}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66731045-E2B4-45E4-BCBF-30BC32D43638}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66731045-E2B4-45E4-BCBF-30BC32D43638}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66731045-E2B4-45E4-BCBF-30BC32D43638}.Release|Any CPU.Build.0 = Release|Any CPU
+		{44EF2EB7-BA68-4CA7-9112-85C570942854}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{44EF2EB7-BA68-4CA7-9112-85C570942854}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{44EF2EB7-BA68-4CA7-9112-85C570942854}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{44EF2EB7-BA68-4CA7-9112-85C570942854}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DED8017F-E865-4B22-A8E3-32D83FC81B8E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DED8017F-E865-4B22-A8E3-32D83FC81B8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DED8017F-E865-4B22-A8E3-32D83FC81B8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DED8017F-E865-4B22-A8E3-32D83FC81B8E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{26470B60-7F6D-4C38-80CC-CC95262C7AFB} = {233C9EB8-A2A7-4A26-A8B6-EABD952207FD}
+		{D0BE2626-49F3-42B1-B751-C6E0E7EC0A9D} = {233C9EB8-A2A7-4A26-A8B6-EABD952207FD}
+		{66731045-E2B4-45E4-BCBF-30BC32D43638} = {233C9EB8-A2A7-4A26-A8B6-EABD952207FD}
+		{44EF2EB7-BA68-4CA7-9112-85C570942854} = {233C9EB8-A2A7-4A26-A8B6-EABD952207FD}
+		{DED8017F-E865-4B22-A8E3-32D83FC81B8E} = {B1C508D7-A3B1-407F-912C-DB345F6D2F66}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,31 @@
+@page
+@model Skolehjemsamtale.Web.Pages.IndexModel
+@{ ViewData["Title"] = "Overblik"; }
+
+<h1>Overblik</h1>
+<p class="lead">Værktøjet følger op på de observationer, der er nedfældet i undervisningen, og støtter en ærlig,
+vækstorienteret samtale med hjem og elev – hvor begge parter oplever sig hørt, og hvor hjemmets viden bliver en del af billedet.</p>
+
+<div class="grid">
+    <div class="card"><h3>Aktive elever</h3><div class="stat">@Model.AntalElever</div></div>
+    <div class="card"><h3>Planlagte samtaler</h3><div class="stat">@Model.AntalPlanlagte</div></div>
+    <div class="card"><h3>Åbne aftaler</h3><div class="stat">@Model.AntalAabneAftaler</div></div>
+    <div class="card"><h3>Oplysninger fra hjemmet</h3><div class="stat">@Model.AntalHjemmeIndsigter</div></div>
+</div>
+
+<h2>Seneste og kommende samtaler</h2>
+<table>
+    <thead><tr><th>Elev</th><th>Type</th><th>Status</th><th>Dato</th><th>Formål</th></tr></thead>
+    <tbody>
+    @foreach (var s in Model.Kommende)
+    {
+        <tr>
+            <td><a asp-page="/Samtaler/Detaljer" asp-route-id="@s.Id">@s.Elev</a></td>
+            <td><span class="pill">@s.Type</span></td>
+            <td><span class="badge @(s.Status == "Afsluttet" ? "ok" : s.Status == "Planlagt" ? "" : "warn")">@s.Status</span></td>
+            <td>@s.Dato.ToString("dd.MM.yyyy")</td>
+            <td class="muted">@s.Formaal</td>
+        </tr>
+    }
+    </tbody>
+</table>

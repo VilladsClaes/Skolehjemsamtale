@@ -1,0 +1,40 @@
+@page
+@model Skolehjemsamtale.Web.Pages.MetodeModel
+@{ ViewData["Title"] = "Metode"; }
+
+<h1>Metoden bag værktøjet</h1>
+<p class="lead">Strukturen bygger på forskning i skolehjemsamarbejde, skolevægring og feedback-/samtalekultur.
+Se <code>docs/research.md</code> for kilder og uddybning.</p>
+
+<h2>Bærende principper</h2>
+<ul class="tight">
+    <li>Beskriv observerbar adfærd og betydning – døm ikke og tillæg ikke motiv.</li>
+    <li>Inddrag frem for at informere: lyt til hjemmets oplevelse, før du forklarer.</li>
+    <li>Hold skolens, hjemmets og elevens perspektiv adskilt – forskelle er data, ikke fejl.</li>
+    <li>Giv eleven en reel stemme uden at gøre eleven ansvarlig for de voksnes plan.</li>
+    <li>Aftal små, testbare skridt med en dato for opfølgning.</li>
+    <li>Afslut med et stemmetjek: oplevede deltagerne at blive hørt?</li>
+</ul>
+
+@foreach (var sk in Model.Skabeloner)
+{
+    <h2>@sk.Navn</h2>
+    <p class="muted">@sk.Beskrivelse</p>
+    @foreach (var t in sk.Trin)
+    {
+        <div class="phase">
+            <h3>@t.Titel <span class="pill">@t.PrimaertPerspektiv</span></h3>
+            <p class="q">@t.Formaal</p>
+            <ul class="tight">@foreach (var q in t.Spoergsmaal) { <li class="q">@q</li> }</ul>
+        </div>
+    }
+}
+
+<h2>Spørgeramme til hjemmet</h2>
+<p class="lead">Viden fra hjemmet, som ikke er tilgængelig i skolekonteksten. Behandl svarene som perspektiv – ikke som bevis på årsag.</p>
+<ul class="tight">
+    @foreach (var q in Model.Spoergeramme)
+    {
+        <li>@q.Spoergsmaal <span class="pill">@q.Kategori</span></li>
+    }
+</ul>

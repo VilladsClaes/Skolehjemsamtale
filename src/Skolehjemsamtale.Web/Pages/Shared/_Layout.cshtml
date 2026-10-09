@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] – Skolehjemsamtale</title>
+    <link rel="stylesheet" href="~/site.css" asp-append-version="true" />
+</head>
+<body>
+<header class="top">
+    <div class="wrap">
+        <a class="brand" asp-page="/Index">Skolehjemsamtale</a>
+        <nav>
+            <a asp-page="/Index">Overblik</a>
+            <a asp-page="/Elever/Index">Elever</a>
+            <a asp-page="/Samtaler/Index">Samtaler</a>
+            <a asp-page="/Metode">Metode</a>
+            <a href="/swagger" target="_blank" rel="noopener">API</a>
+        </nav>
+    </div>
+</header>
+<main class="wrap">
+    @RenderBody()
+</main>
+<footer class="wrap foot">
+    Samtaleværktøj til skole-hjem-samarbejde · opfølgning på observationer fra undervisningen
+</footer>
+</body>
+</html>
